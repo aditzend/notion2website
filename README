@@ -1,0 +1,22 @@
+[make cert](https://dev.to/josuebustos/https-localhost-for-node-js-1p1k)
+
+1) Add in the tarang:ssl package
+
+meteor add tarang:ssl
+2) Add your certificate and key to a directory in your app /private, e.g /private/key.pem and /private/cert.pem
+
+Then in your /server code
+
+Meteor.startup(function() {
+    SSLProxy({
+       port: 6000, //or 443 (normal port/requires sudo)
+       ssl : {
+            key: Assets.getText("key.pem"),
+            cert: Assets.getText("cert.pem"),
+
+            //Optional CA
+            //Assets.getText("ca.pem")
+       }
+    });
+});
+Then fire up your app and load up https://localhost:6000. Be sure not to mix up your ports with https and http as they are served seperately.
